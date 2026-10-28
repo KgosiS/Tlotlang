@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8e9eb">
+  <meta name="description" content="A little anniversary surprise for Tlotlang and Kgosi.">
+  <title>For Tlotlang, with love</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --rose: #b94f68;
+      --rose-deep: #80354a;
+      --pink: #f8e9eb;
+      --paper: #fffaf7;
+      --ink: #33262a;
+      --muted: #76676b;
+      --green: #687b52;
+      --line: #ead9d8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 12% 18%, rgba(255,255,255,.82), transparent 34%),
+        radial-gradient(ellipse at 92% 84%, rgba(234,197,200,.55), transparent 33%),
+        var(--pink);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button, a { font: inherit; }
+
+    .page {
+      display: grid;
+      min-height: 100svh;
+      place-items: center;
+      padding: 28px;
+    }
+
+    .invitation {
+      width: min(100%, 900px);
+      overflow: hidden;
+      background: var(--paper);
+      box-shadow: 0 24px 80px rgba(111, 54, 68, .14);
+    }
+
+    .floral-image {
+      position: relative;
+      height: clamp(150px, 26vw, 260px);
+      overflow: hidden;
+      background: #d78f9a;
+    }
+
+    .floral-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 48%;
+      display: block;
+    }
+
+    .floral-image::after {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: linear-gradient(90deg, rgba(89, 39, 53, .18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .content {
+      min-height: 350px;
+      padding: clamp(28px, 6vw, 58px) clamp(24px, 8vw, 82px) 48px;
+    }
+
+    .step {
+      display: none;
+      animation: arrive .55s ease both;
+    }
+
+    .step.active { display: block; }
+
+    .step.leaving {
+      animation: leave .3s ease both;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--rose);
+      font-size: .73rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.12;
+    }
+
+    h1 { max-width: 680px; font-size: clamp(2.5rem, 7vw, 5rem); }
+    h2 { font-size: clamp(2.25rem, 6vw, 4rem); }
+
+    .names {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .names span { color: var(--rose); }
+
+    .divider {
+      width: 54px;
+      height: 1px;
+      margin: 28px 0;
+      background: var(--rose);
+    }
+
+    .question {
+      max-width: 620px;
+      margin: 20px 0 10px;
+      font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      line-height: 1.65;
+    }
+
+    .date-line {
+      margin: 0;
+      color: var(--muted);
+      font-size: .98rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 23px;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+    .button:focus-visible { outline: 3px solid #d88a9b; outline-offset: 3px; }
+
+    .button-primary { color: #fff; background: var(--rose); }
+    .button-primary:hover { background: var(--rose-deep); }
+    .button-secondary { color: var(--rose-deep); border-color: var(--line); background: transparent; }
+    .button-secondary:hover { background: #f7edef; }
+    .button-whatsapp { color: #fff; background: #47764e; }
+    .button-whatsapp:hover { background: #365d3c; }
+
+    .response {
+      min-height: 1.5em;
+      margin: 18px 0 0;
+      color: var(--rose-deep);
+      font-size: .95rem;
+    }
+
+    .celebration-copy {
+      max-width: 570px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .confetti {
+      position: fixed;
+      z-index: 3;
+      top: -16px;
+      width: 9px;
+      height: 13px;
+      border-radius: 1px;
+      pointer-events: none;
+      animation: fall var(--fall-time) cubic-bezier(.22,.62,.44,.98) forwards;
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes leave {
+      to { opacity: 0; transform: translateY(-8px); }
+    }
+
+    @keyframes fall {
+      to { transform: translate3d(var(--drift), 110vh, 0) rotate(680deg); }
+    }
+
+    @media (max-width: 560px) {
+      .page { padding: 14px; }
+      .content { min-height: 370px; padding-top: 32px; padding-bottom: 36px; }
+      .actions { align-items: stretch; }
+      .actions .button { flex: 1 1 135px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <article class="invitation" aria-live="polite">
+      <div class="floral-image">
+        <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&amp;fit=crop&amp;w=1600&amp;q=85" alt="A soft pink bouquet in bloom">
+      </div>
+      <div class="content">
+        <section class="step active" id="anniversary" aria-labelledby="anniversary-title">
+          <p class="eyebrow">A little note for my favourite person</p>
+          <h1 id="anniversary-title">Happy 2 years<br>and 6 months to us.</h1>
+          <p class="names">Tlotlang <span>&amp;</span> Kgosi <span aria-hidden="true">&hearts;</span></p>
+          <div class="divider" aria-hidden="true"></div>
+          <button class="button button-primary" id="next-button" type="button">Next <span aria-hidden="true">&rarr;</span></button>
+        </section>
+
+        <section class="step" id="invitation-step" aria-labelledby="invitation-title" hidden>
+          <p class="eyebrow">One more little question</p>
+          <h2 id="invitation-title">Your company, please?</h2>
+          <p class="question">Are you available for a matcha date today?</p>
+          <p class="date-line"><span id="today-date"></span> <span aria-hidden="true">&middot;</span> 16:30</p>
+          <div class="actions">
+            <button class="button button-primary" id="yes-button" type="button">Yes, absolutely <span aria-hidden="true">&hearts;</span></button>
+            <button class="button button-secondary" id="no-button" type="button">No</button>
+          </div>
+          <p class="response" id="no-response" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="step" id="celebration" aria-labelledby="celebration-title" hidden>
+          <p class="eyebrow">Best answer ever</p>
+          <h2 id="celebration-title">It’s a date! <span aria-hidden="true">&hearts;</span></h2>
+          <p class="celebration-copy">Matcha at 16:30, with my favourite person. Happy 2 years and 6 months, Tlotlang. I can’t wait to see you.</p>
+          <div class="actions">
+            <a class="button button-whatsapp" id="whatsapp-link" href="https://wa.me/27774986080" target="_blank" rel="noopener noreferrer">Send Kgosi a WhatsApp <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    const anniversaryStep = document.querySelector("#anniversary");
+    const invitationStep = document.querySelector("#invitation-step");
+    const celebrationStep = document.querySelector("#celebration");
+
+    document.querySelector("#today-date").textContent = new Intl.DateTimeFormat(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    }).format(new Date());
+
+    function showStep(current, next) {
+      current.classList.add("leaving");
+      window.setTimeout(() => {
+        current.hidden = true;
+        current.classList.remove("active", "leaving");
+        next.hidden = false;
+        next.classList.add("active");
+      }, 280);
+    }
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+      showStep(anniversaryStep, invitationStep);
+    });
+
+    document.querySelector("#no-button").addEventListener("click", () => {
+      document.querySelector("#no-response").textContent = "I think you made a mistake, ma'am. Try again.";
+    });
+
+    document.querySelector("#yes-button").addEventListener("click", () => {
+      const message = "Yes! See you today at 16:30 for matcha. Happy 2 years and 6 months, Kgosi! <3";
+      document.querySelector("#whatsapp-link").href = `https://wa.me/27774986080?text=${encodeURIComponent(message)}`;
+      showStep(invitationStep, celebrationStep);
+      celebrate();
+    });
+
+    function celebrate() {
+      const colors = ["#b94f68", "#e4ad55", "#687b52", "#e8b6bc", "#80354a"];
+      for (let index = 0; index < 70; index += 1) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.setAttribute("aria-hidden", "true");
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.backgroundColor = colors[index % colors.length];
+        piece.style.setProperty("--drift", `${Math.random() * 180 - 90}px`);
+        piece.style.setProperty("--fall-time", `${2.4 + Math.random() * 2.2}s`);
+        document.body.append(piece);
+        piece.addEventListener("animationend", () => piece.remove(), { once: true });
+      }
+    }
+  </script>
+</body>
+</html>
